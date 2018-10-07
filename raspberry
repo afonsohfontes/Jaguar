@@ -1,0 +1,26 @@
+raspberry
+login: pi
+password: raspberry
+
+login: root
+password: raspberry
+
+em casa:
+ip: 192.168.25.228
+
+
+ssh pi@ip
+
+scp -r /home/davi/castkin_pi pi@192.168.25.228:/home/pi
+
+http://wiki.ros.org/ROSberryPi/Installing%20ROS%20Kinetic%20on%20the%20Raspberry%20Pi
+
+
+ scp -r catkin_jaguar pi@192.168.0.10
+
+
+no SO do allan:
+ctrl-alt-t : abrir o terminal
+senha:ubuntu
+senha da base: robotseverywhere
+

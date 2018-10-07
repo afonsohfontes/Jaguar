@@ -1,0 +1,320 @@
+http://wiki.ros.org/melodic/Installation/Ubuntu
+
+criar workspace:
+http://wiki.ros.org/catkin/Tutorials/create_a_workspace
+para rodar o lidar:
+https://github.com/afonsohfontes/Jaguar/blob/master/Relatorio.pdf
+
+https://github.com/afonsohfontes/Jaguar/blob/master/Relatorio.pdf
+http://wiki.ros.org/hokuyo_node/Tutorials/UsingTheHokuyoNode
+http://wiki.ros.org/catkin/Tutorials/using_a_workspace
+
+https://github.com/ros-drivers/hokuyo_node
+
+Comandos no terminal:
+
+1)roscore
+
+em um segundo terminal:
+
+2) source ~/catkin_ws/install/setup.bash
+(every time? https://answers.ros.org/question/269784/setupbash-every-time/)
+3) rosrun hokuyo_node hokuyo_node
+
+
+failed to open port:
+ls -l /dev/ttyACM0 -> SE TIVER --RW-- e pq foi configurado com sucesso, se n:
+
+cd
+sudo chmod a+rw /dev/ttyACM0 na raiz do sistema
+
+how to dual boot:
+https://www.maketecheasier.com/install-dual-boot-ubuntu-mac/
+
+
+
+kf (Kalman filter):
+https://roscon.ros.org/2015/presentations/robot_localization.pdf
+
+
+mrpt_localization:
+tem uma serie de algoritmos aqui, e um deles, o localizador de markov. a ideia e implementar alguns e perguntar pro afonso se foi o certo!
+git https://github.com/mrpt-ros-pkg/mrpt_navigation
+
+
+Para instalar um node:
+https://answers.ros.org/question/240235/how-to-install-packages-from-github/
+
+Colar a pasta em: /home/davi/catkin_ws/src
+
+ ROS wiki: http://wiki.ros.org/mrpt_navigation
+* Compiling instructions: http://wiki.ros.org/mrpt_navigation/Tutorials/Installing
+* Usage examples and tutorials: http://wiki.ros.org/mrpt_navigation/Tutorials
+* Branches:
+  * `master`: Intended for use with latest MRPT versions (>=1.5.4, >=2.0.x).
+  * `compat-mrpt-1.3`: Stall branch, archived for backwards compatibility with MRPT versions 1.3.x or older.
+
+Para instalar o mrpt_localization: http://wiki.ros.org/mrpt_navigation/Tutorials/Installing
+
+
+
+Meu workspace 'e catkin_ws
+
+
+http://wiki.ros.org/mrpt_navigation/Tutorials/Installing
+
+
+ 
+se algo n funcionar mais, refazer o workspace
+
+
+para mostrar todas a funcoes associadas ao nome escrito no terminal, nome + tab (x3
+) + y
+
+http://wiki.ros.org/mrpt_localization
+
+https://answers.ros.org/question/230869/transform-senderunknown_publisher-for-frame-leddar-fixed-frame-map-does-not-exist/
+
+
+git clone https://github.com/ros-drivers/driver_common.git
+
+
+
+
+catkin_make:  so com o mrpt_navigation
+
+dps add o driver_common
+catkin_mak
+dps add hokuyo
+catkin_mak
+
+
+http://wiki.ros.org/mrpt_localization
+
+para adicioanr o map
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 map laser 100
+
+https://answers.ros.org/question/230869/transform-senderunknown_publisher-for-frame-leddar-fixed-frame-map-does-not-exist/
+
+
+
+roscore  (ativar o roscore)
+new terminal
+cd workspace (catkin_ws1)
+source devel/setup.bash (ativar o ws)
+rosrun hokuyo_node hokuyo_node (iniciar o sensor)
+rostopic echo /scan  (dados do sensor)
+Usage: static_transform_publisher x y z qx qy qz qw frame_id child_frame_id  period(milliseconds) 
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 map laser 100 (se n fizer isso, ao abrir o rviz, aparecera um erro qnt ao mapa. entao devemos adicionar nosso mapa laser, algo no fixed frame)
+roslaunch mrpt_localization demo.launch (iniciar a demo)
+
+https://github.com/mrpt-ros-pkg/mrpt_navigation/blob/master/mrpt_localization/launch/demo.launch
+
+
+original demo.launch:
+
+
+<launch>
+
+  <include file="$(find mrpt_localization)/launch/demo_rviz_part_only.launch" />
+
+  <include file="$(find mrpt_rawlog)/launch/demo_rosbag.launch" />
+
+  <node pkg="mrpt_localization" type="mrpt_localization_node" name="mrpt_localization_node" output="screen">
+    <param name="ini_file" value="$(find mrpt_localization)/tutorial/pf-localization.ini"/> 
+    <param name="map_file" value="$(find mrpt_localization)/tutorial/map.simplemap"/> 
+    <param name="odom_frame_id" value="r1/odom"/> 
+    <param name="global_frame_id" value="/map"/> 
+    <param name="base_frame_id" value="r1/base_link"/> 
+    <param name="map_update_skip" value="20"/> 
+    <param name="particlecloud_update_skip" value="1"/> 
+    <param name="tf_prefix" value=""/> 
+    <param name="debug" value="true"/>
+    <param name="gui_mrpt" value="true"/> 
+    <param name="sensor_sources" value="r1/top_laser/scan"/>
+    <remap from="particlecloud" to="r1/particlecloud"/>
+
+  </node>
+
+
+</launch>
+
+
+https://answers.ros.org/question/209276/rviz-slam-rplidar-problem/
+https://answers.ros.org/question/288945/rviz-errortransform-senderunknown_publisher-for-frame-x-frame-x-does-not-exist/
+https://www.mrpt.org/tutorials/programming/statistics-and-bayes-filtering/particle_filter_algorithms/
+http://wiki.ros.org/mrpt_localization
+
+https://github.com/mrpt-ros-pkg/mrpt_navigation/blob/master/mrpt_localization/launch/demo.launch
+
+http://wiki.ros.org/tf
+
+https://github.com/ros-drivers/driver_common
+https://github.com/ros-drivers/hokuyo_node
+http://wiki.ros.org/mrpt_localization
+
+
+
+=========================================================================== 
+          gmapping
+===========================================================================
+
+
+primeiro catkin_make no slam_gmapping dps open_slamgmapping e por fim, catkin_make no gmapping
+
+
+source ~/catkin_ws1/devel/setup.bash
+
+https://github.com/ros-perception/openslam_gmapping
+https://github.com/ros-perception/slam_gmapping
+
+
+rostopic echo /scan
+
+rviz rviz
+
+
+[ERROR] [1536087827.457595928]: Exception thrown while opening Hokuyo.
+Failed to open port: /dev/ttyACM0. No such file or directory (errno = 2). The requested port does not exist. Is the hokuyo connected? Was the port name misspelled? (in hokuyo::laser::open) You may find further details at http://www.ros.org/wiki/hokuyo_node/Troubleshooting
+
+
+tire o cabo usb e coloque de novo. espere alguns minutos e tente novamente.
+desligue e ligue o sensor
+
+Error: Failed to open port
+
+    [ERROR] 1263845857.096606000: Exception thrown while opening Hokuyo.
+    Failed to open port: /dev/ttyACM. No such file or directory (errno = 2). The requested port does not exist. Is the hokuyo connected? Was the port name misspelled? (in hokuyo::laser::open) You may find further details at http://www.ros.org/wiki/hokuyo_node/Troubleshooting
+
+Solution:
+
+    Is the hokuyo connected?
+    Was the port name misspelled?
+
+        Usually USB hokuyos show up at /dev/ttyACM* you can try looking for them there
+
+        ls /dev/ttyACM*
+
+    On the PR2 only: was one of the Hokuyos recently replaced?
+        You will have to update the /etc/ros/sensors/*_hokuyo symbolic link to point to the new name of the hokuyo device, which should be /dev/sensors/hokuyo_H*. 
+    On the PR2 only: does the /dev/sensors/hokuyo_H* symbolic link exist for your device?
+        The hokuyo_nodes connect to /etc/ros/sensors/*_hokuyo, which is a symbolic link to a specific hokuyo device in /dev/sensors/hokuyo_H*. The link in /dev/sensors gets created by udev when the Hokuyo is plugged in. If you restart udev while a hokuyo_node is running, it will fail to recreate the link because it will be unable to connect to the Hokuyo to determine its ID. The next time the hokuyo_node tries to reopen the port it will be unable to do so as the symbolic link will be missing. In this case, you need to stop the running hokuyo_nodes, and restart udev:
+
+            /etc/init.d/udev stop
+            /etc/init.d/udev start
+
+Reiniciar o pc (fechou o terminal sem finalizar o hokuyo_node)
+
+
+rosrun rqt_logger_level rqt_logger_level
+
+nao debugar o laser! o programa vai travar e vai ser necessario reiniciar o pc
+
+
+
+rosrun gmapping slam_gmapping scan:=scan _base_frame:=laser
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 map laser 100
+
+
+
+
+https://answers.ros.org/question/230608/slam_gmapping-stop-at-registering-first-scan/
+
+
+
+rosrun gmapping slam_gmapping scan:=scan _linearUpdate:=0.0 _angularUpdate:=0.0 _map_update_interval:=0.1 _particles:=1 _delta:=0.1
+
+
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0 0.0 map laser 100
+rosrun hokuyo_node hokuyo_node
+sudo chmod a+rw /dev/ttyACM0 hokuyo_node
+
+https://answers.ros.org/question/207352/gmapping-localization-information/
+
+source ~/catkin_ws1/devel/setup.bash
+
+rosrun tf tf_echo /map /laser
+rosrun tf tf_echo /map /odom
+
+rosrun gmapping slam_gmapping scan:=scan _base_frame:=base
+
+funcionou: rosrun gmapping slam_gmapping scan:=scan _base_frame:=laser
+
+https://answers.ros.org/question/277064/map-problems-with-gmapping/
+https://answers.ros.org/question/230608/slam_gmapping-stop-at-registering-first-scan/
+
+https://openslam-org.github.io/gmapping.html
+
+http://wiki.ros.org/Topics
+
+
+ler sobre o odom
+odometry
+
+rosrun tf view_frames
+
+Deu certo!!! O negocio 'e  o tf frame que deve ser ajustado 
+
+
+Required tf Transforms
+<the frame attached to incoming scans> → base_link
+
+    usually a fixed value, broadcast periodically by a robot_state_publisher, or a tf static_transform_publisher. 
+
+base_link → odom
+
+    usually provided by the odometry system (e.g., the driver for the mobile base) 
+
+Provided tf Transforms
+map → odom
+
+    the current estimate of the robot's pose within the map frame 
+
+em: http://library.isr.ist.utl.pt/docs/roswiki/gmapping.html
+
+deu certo: rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 laser odom 100
+ rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 laser odom 100
+
+
+tava rodando tbm: rosrun tf static_transform_publisher 0 0 0 0 0 0 mabaslink laser 100
+
+
+   
+gerar os mapas:rosrun tf view_frames
+
+rosrun gmapping slam_gmapping scan:=scan _linearUpdate:=0.0 _angularUpdate:=0.0 _map_update_interval:=0.0 _particles:=2 _delta:=0.1 _base_frame:=laser
+
+
+
+rosrun tf view_frames
+
+
+
+Pra tudo funcionar:
+
+
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 map laser 100
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 laser odom 100
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 odom map 100
+
+
+
+http://wiki.ros.org/gmapping
+
+http://wiki.ros.org/navigation#Tutorials
+https://answers.ros.org/question/115401/how-to-update-gmapping-continuously/
+https://answers.ros.org/question/230304/gmapping-laser_scan_matcher-slow-vs-hector-slam/
+
+https://books.google.com.br/books?id=TRNSAgAAQBAJ&pg=PA32&lpg=PA32&dq=gmapping+low+update+rate&source=bl&ots=isJsQ0Ajx0&sig=ih9UsC30nF20esO83gMazt5JT94&hl=en&sa=X&ved=2ahUKEwjo3ICJpqfdAhUDDpAKHT7rCBEQ6AEwAnoECAgQAQ#v=onepage&q=gmapping%20low%20update%20rate&f=false
+
+https://blogs.oracle.com/pranav/how-to-find-out-cpu-utilization-in-linux
+
+https://answers.ros.org/question/162741/how-gmapping-get-odom-data/
+https://answers.ros.org/question/103376/improving-the-map-or-odometry-for-slam_gmapping/
+
+https://answers.ros.org/question/230304/gmapping-laser_scan_matcher-slow-vs-hector-slam/
+https://answers.ros.org/question/231372/gmapping-performance-differentiates-between-git-package-and-sudo-apt-get-package/
+
+
+top
+
