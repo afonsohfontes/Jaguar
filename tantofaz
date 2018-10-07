@@ -1,0 +1,13 @@
+#import getpass
+#import sys
+import telnetlib
+
+HOST = "192.168.0.60"
+
+tn = telnetlib.Telnet(HOST, "10002")
+
+line = tn.read_until("\n")  # Read one line
+print(line)
+
+
+https://answers.ros.org/question/243232/how-to-install-hokuyo_nodeurg_node-on-kinetic/
